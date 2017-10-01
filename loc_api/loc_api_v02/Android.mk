@@ -13,8 +13,6 @@ LOCAL_MODULE_TAGS := optional
 LOCAL_SHARED_LIBRARIES := \
     libutils \
     libcutils \
-    libqmi_cci \
-    libqmi_common_so \
     libloc_core \
     libgps.utils \
     libdl \
@@ -31,10 +29,6 @@ LOCAL_CFLAGS += \
     -fno-short-enums \
     -D_ANDROID_
 
-## Includes
-LOCAL_C_INCLUDES := \
-    $(TARGET_OUT_HEADERS)/qmi-framework/inc \
-    $(TARGET_OUT_HEADERS)/qmi/inc
 LOCAL_HEADER_LIBRARIES := \
     libloc_core_headers \
     libgps.utils_headers \
