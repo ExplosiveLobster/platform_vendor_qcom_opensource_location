@@ -47,6 +47,10 @@
 #include <loc_cfg.h>
 #include <LocContext.h>
 
+extern "C" {
+#include "libloc_loader.h"
+}
+
 using namespace std;
 using namespace loc_core;
 
@@ -356,6 +360,9 @@ LocApiV02 :: open(LOC_API_ADAPTER_EVENT_MASK_T mask)
 
   LOC_LOGd("%p Enter mMask: 0x%" PRIx64 "  mQmiMask: 0x%" PRIx64 " mExcludedMask: 0x%" PRIx64 "",
            clientHandle, mMask, mQmiMask, mExcludedMask);
+
+  // Load symbols from proprietary libs
+  load_proprietary_symbols();
 
   /* If the client is already open close it first */
   if(LOC_CLIENT_INVALID_HANDLE_VALUE == clientHandle)

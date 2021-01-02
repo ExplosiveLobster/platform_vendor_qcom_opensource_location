@@ -1,0 +1,21 @@
+cc_library_shared {
+    name: "libloc_loader",
+    vendor: true,
+
+    shared_libs: ["liblog"],
+
+    srcs: ["libloc_loader.c"],
+
+    cflags: [
+        "-DLOG_TAG=\"LIBLOC_LOADER\""
+    ],
+
+    header_libs: ["libqmi_headers"],
+}
+
+cc_library_headers {
+    name: "libloc_loader_headers",
+    vendor: true,
+
+    export_include_dirs: ["."],
+}
