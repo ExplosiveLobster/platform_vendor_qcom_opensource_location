@@ -3578,9 +3578,13 @@ void  LocApiV02 :: reportSv (
 
                 if (sv_info_ptr->validMask & QMI_LOC_SV_INFO_MASK_VALID_SNR_V02) {
                     gnssSv_ref.cN0Dbhz = sv_info_ptr->snr;
-                    double rfLoss = gnss_report_ptr->rfLoss[i];
-                    if ((1 != gnss_report_ptr->expandedSvList_valid) ||
-                        (1 != gnss_report_ptr->rfLoss_valid)) {
+                    if ((1 == gnss_report_ptr->expandedSvList_valid) &&
+                        (1 == gnss_report_ptr->rfLoss_valid)) {
+                        gnssSv_ref.basebandCarrierToNoiseDbHz = gnssSv_ref.cN0Dbhz -
+                                gnss_report_ptr->rfLoss[i];
+                    } else {
+                        double rfLoss = 0;
+
                         switch (gnssSv_ref.gnssSignalTypeMask) {
                         case GNSS_SIGNAL_GPS_L1CA:
                         case GNSS_SIGNAL_GPS_L1C:
@@ -3627,10 +3631,7 @@ void  LocApiV02 :: reportSv (
                         default:
                             break;
                         }
-                    }
-                    LOC_LOGv("cN0Dbhz=%f rfLoss=%f gloFrequency=%d",
-                             gnssSv_ref.cN0Dbhz, rfLoss, gloFrequency);
-                    if (gnssSv_ref.cN0Dbhz > rfLoss) {
+                        LOC_LOGv("rfLoss=%f gloFrequency=%d", rfLoss, gloFrequency);
                         gnssSv_ref.basebandCarrierToNoiseDbHz = gnssSv_ref.cN0Dbhz - rfLoss;
                     }
                 }
